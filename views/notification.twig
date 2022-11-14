@@ -1,0 +1,17 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+notifications 
+<div id="notification">
+</div>
+
+ <script>
+    var socket = io('http://localhost:3000');
+    socket.on('notification', function(data){
+      var id= document.getElementById('notification');
+      $('#notification').append('<br>' + data);
+    });
+  </script>
+
+{% endblock %}

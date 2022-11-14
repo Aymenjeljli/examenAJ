@@ -1,0 +1,64 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <h1 style="text-align:center;">Ajouter un produit</h1>
+    <hr />
+    <form method="post" action="http://localhost:3000/products/addproduct">
+        <label>libelle</label>
+		<input type="text" placeholder="libelle" name="libelle"/><br>
+        <label>price</label>
+		<input type="number" placeholder="price" name="prix"/><br>
+        <label>description</label>
+		<input type="text" placeholder="description" name="description"/><br>
+        <label>quantite</label>
+		<input type="number" placeholder="quantite" name="quantite"/><br>
+        <label>instock</label>
+        <input type="radio" value=true name="instock">oui</input>
+        <input type="radio" value=false name="instock">non</input>
+
+        <br>
+		
+        <br>
+        <button type="submit">Ajouter produit</button>
+    </form>
+
+<br>
+<br>
+
+<table border="1" style="margin:auto;">
+    <tr>
+        <td>libelle</td>
+        <td>prix</td>
+        <td>description</td>
+        <td>quqntite</td>
+        <td>stock</td>
+        <td>supprimer</td>
+        <td>notif</td>
+    </tr>
+    {% for prod in products %}
+    <tr>
+        <td>{{prod.libelle}}</td>
+        <td>{{prod.prix}}</td>
+        <td>{{prod.description}}</td>
+        <td>{{prod.quantite}}</td>
+        <td>{{prod.instock ? 'in stock' : 'repture' }}</td>
+        <td>
+            <a href="http://localhost:3000/products/deleteproduit/{{prod._id}}">Supprimer</a>
+        </td>
+        <td>
+            <button onClick="sendNotification()">notif</button>
+            <script>
+                function sendNotification() {
+                    var socket = io('http://localhost:3000');
+                    var notification = "your button will delete";
+                    socket.emit('notification', notification);
+                    console.log(notification);
+                    
+                }
+            </script>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+  
+{% endblock %}
